@@ -238,6 +238,14 @@ a:hover {
 }
 
 /* Grade de Produtos */
+.woocommerce ul.products::before,
+.woocommerce ul.products::after,
+.woocommerce-page ul.products::before,
+.woocommerce-page ul.products::after {
+  display: none !important;
+  content: none !important;
+}
+
 .woocommerce ul.products,
 .woocommerce-page ul.products {
   display: grid !important;
@@ -590,114 +598,250 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* 1. Hero Section */
+/* Keyframe Animations */
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseLive {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: floatAnimation 4s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up-delay {
+  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.animate-slide-up-delay-2 {
+  animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* 1. Hero Section com Split Grid & Fotografia Editorial */
 .hero-section {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
+  background: linear-gradient(135deg, #090d16 0%, #0f172a 50%, #1e293b 100%);
   color: #ffffff;
   border-radius: var(--radius-lg);
-  padding: 3.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+  padding: 2.5rem 1.75rem;
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 992px) {
   .hero-section {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4rem 3.5rem;
+    padding: 3.5rem 4rem;
+  }
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3.5rem;
   }
 }
 
 .hero-content {
-  max-width: 600px;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero-badge {
-  display: inline-block;
-  background: rgba(37, 99, 235, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(37, 99, 235, 0.2);
   color: #93c5fd;
-  border: 1px solid rgba(147, 197, 253, 0.3);
+  border: 1px solid rgba(147, 197, 253, 0.25);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 0.35rem 0.85rem;
+  padding: 0.4rem 0.95rem;
   border-radius: var(--radius-full);
   margin-bottom: 1.25rem;
+  width: fit-content;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulseLive 2s infinite ease-in-out;
+  box-shadow: 0 0 8px #3b82f6;
 }
 
 .hero-title {
   font-size: 2.25rem;
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   margin: 0 0 1.25rem 0;
   color: #ffffff;
 }
 
 @media (min-width: 768px) {
   .hero-title {
-    font-size: 3rem;
+    font-size: 3.25rem;
   }
 }
 
 .hero-description {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #94a3b8;
   margin: 0 0 2rem 0;
-  line-height: 1.6;
+  line-height: 1.65;
+  max-width: 520px;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.hero-card-preview {
-  background: rgba(255, 255, 255, 0.06);
+.hero-social-proof {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.hero-social-proof .stars {
+  color: #fbbf24;
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+}
+
+.hero-social-proof strong {
+  color: #ffffff;
+}
+
+/* Imagem Hero & Floating Card */
+.hero-image-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  border-radius: var(--radius-lg);
+  overflow: visible;
+}
+
+.hero-img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: transform 0.5s ease;
+}
+
+.hero-image-card:hover .hero-img {
+  transform: scale(1.02);
+}
+
+.hero-floating-card {
+  position: absolute;
+  bottom: -1.5rem;
+  left: -1rem;
+  background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-md);
-  padding: 2rem;
-  max-width: 340px;
-  width: 100%;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  max-width: 260px;
 }
 
-.preview-badge {
-  display: inline-block;
+.floating-badge {
   background: #ef4444;
   color: #ffffff;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-full);
-  margin-bottom: 1rem;
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 
-.preview-info h3 {
+.hero-floating-card h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
   color: #ffffff;
-  font-size: 1.25rem;
-  margin: 0 0 0.5rem 0;
+  font-weight: 700;
 }
 
-.preview-info p {
-  color: #cbd5e1;
-  font-size: 0.9rem;
-  margin: 0 0 1.25rem 0;
-}
-
-.preview-price {
-  font-size: 1.35rem;
+.floating-price {
+  font-size: 1.15rem;
   font-weight: 800;
   color: #60a5fa;
   display: block;
+  margin-bottom: 0.5rem;
+}
+
+.floating-stock {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  display: inline-block;
 }
 
 /* 2. Value Propositions / Bar de Benefícios */
@@ -708,7 +852,7 @@ a:hover {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: 1.75rem;
   box-shadow: var(--shadow-sm);
 }
 
@@ -728,6 +872,13 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.benefit-item:hover {
+  background-color: var(--color-bg);
 }
 
 .benefit-icon {
@@ -740,6 +891,11 @@ a:hover {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.benefit-item:hover .benefit-icon {
+  transform: scale(1.08);
 }
 
 .benefit-text {
@@ -757,14 +913,24 @@ a:hover {
   color: var(--color-text-muted);
 }
 
-/* 3. Categorias em Destaque */
+/* 3. Categorias em Destaque com Imagens e Micro-Hover */
 .section-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
+}
+
+.section-tag {
+  display: inline-block;
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
 }
 
 .section-title {
-  font-size: 1.85rem;
+  font-size: 2rem;
   font-weight: 800;
   color: var(--color-text-dark);
   letter-spacing: -0.025em;
@@ -783,9 +949,10 @@ a:hover {
   gap: 1.25rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .categories-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
   }
 }
 
@@ -794,47 +961,82 @@ a:hover {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
-  text-align: center;
-  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
 }
 
 .category-card:hover {
   border-color: var(--color-accent);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
 }
 
-.category-image {
-  width: 5rem;
-  height: 5rem;
-  border-radius: var(--radius-full);
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 1rem;
-  border: 2px solid var(--color-border);
+.category-img-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-bg);
+}
+
+.cat-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.category-card:hover .cat-img {
+  transform: scale(1.08);
 }
 
 .category-placeholder {
-  background: var(--color-bg);
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.category-count-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.category-info {
+  padding: 1.25rem;
+  text-align: left;
 }
 
 .category-info h3 {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--color-text-dark);
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.35rem 0;
 }
 
-.category-info span {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
+.category-link-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.category-card:hover .category-link-text {
+  transform: translateX(4px);
 }
 
 /* 4. Seção de Produtos em Destaque */
@@ -844,7 +1046,7 @@ a:hover {
 
 .section-footer-action {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 /* 5. Banner Promocional */
@@ -852,35 +1054,56 @@ a:hover {
   background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
   border-radius: var(--radius-lg);
   color: #ffffff;
-  padding: 3rem 2rem;
+  padding: 3.5rem 2rem;
   text-align: center;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
 }
 
 .promo-badge {
   display: inline-block;
   background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
+  padding: 0.35rem 0.85rem;
   border-radius: var(--radius-full);
   margin-bottom: 1rem;
 }
 
 .promo-banner-card h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.85rem 0;
   letter-spacing: -0.025em;
+  color: #ffffff;
 }
 
 .promo-banner-card p {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: #bfdbfe;
-  max-width: 550px;
-  margin: 0 auto 1.75rem auto;
+  max-width: 580px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
+}
+
+.btn-promo {
+  background-color: #ffffff !important;
+  color: #1e3a8a !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  padding: 0.85rem 2rem !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
+}
+
+.btn-promo:hover {
+  background-color: #f8fafc !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* 6. Newsletter Section */
@@ -888,7 +1111,7 @@ a:hover {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 3rem 2rem;
+  padding: 3.5rem 2rem;
   text-align: center;
   box-shadow: var(--shadow-sm);
 }
@@ -899,7 +1122,7 @@ a:hover {
 }
 
 .newsletter-content h2 {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 800;
   color: var(--color-text-dark);
   margin: 0 0 0.5rem 0;
@@ -908,8 +1131,8 @@ a:hover {
 
 .newsletter-content p {
   color: var(--color-text-muted);
-  font-size: 0.95rem;
-  margin: 0 0 1.75rem 0;
+  font-size: 1rem;
+  margin: 0 0 2rem 0;
 }
 
 .newsletter-form {
@@ -928,7 +1151,7 @@ a:hover {
 }
 
 .newsletter-form input {
-  padding: 0.85rem 1.25rem;
+  padding: 0.9rem 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
