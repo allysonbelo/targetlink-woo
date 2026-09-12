@@ -220,9 +220,44 @@ a:hover {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 2.5rem 2rem;
+  padding: 2.75rem 2.25rem;
   margin-bottom: 2.5rem;
   box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Formas Geométricas SVG de Fundo */
+.shop-hero-bg-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shop-hero-bg-shapes .shape-1 {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  animation: floatAnimation 7s ease-in-out infinite;
+}
+
+.shop-hero-bg-shapes .shape-2 {
+  position: absolute;
+  bottom: -40px;
+  left: 10%;
+  animation: floatAnimation 9s ease-in-out infinite reverse;
+}
+
+.shop-hero-inner,
+.shop-filter-bar,
+.shop-quick-perks {
+  position: relative;
+  z-index: 2;
 }
 
 .shop-breadcrumbs {
@@ -257,14 +292,14 @@ a:hover {
   font-weight: 800;
   color: var(--color-text-dark);
   letter-spacing: -0.03em;
-  margin: 0 0 0.5rem 0;
+  margin: 0.35rem 0 0.5rem 0;
   line-height: 1.2;
 }
 
 .shop-hero-description {
   font-size: 1.05rem;
   color: var(--color-text-muted);
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.75rem 0;
   max-width: 650px;
   line-height: 1.6;
 }
@@ -341,6 +376,29 @@ a:hover {
 .shop-pill.active .pill-badge {
   background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
+}
+
+/* Mini Bar de Perks Rápidos */
+.shop-quick-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--color-border);
+}
+
+.perk-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.perk-item svg {
+  color: var(--color-accent);
 }
 
 /* Category Badge acima do título no Card */
@@ -1683,6 +1741,138 @@ a:hover {
 
 .faq-answer p {
   margin: 0;
+}
+
+/* ==========================================================================
+   Shop Catalog: Guia de Qualidade & Banner Concierge com SVGs
+   ========================================================================== */
+.shop-guide-section {
+  margin-top: 4.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.shop-guide-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .shop-guide-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.guide-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.guide-icon-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.guide-svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.guide-card:hover .guide-svg {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.guide-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.015em;
+}
+
+.guide-card p {
+  font-size: 0.925rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Banner Concierge com Padrão SVG */
+.shop-concierge-banner {
+  background: linear-gradient(135deg, #090d16 0%, #0f172a 60%, #1e293b 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 2.5rem;
+  margin-top: 4rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.concierge-pattern-svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.concierge-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.concierge-badge {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.25);
+  color: #93c5fd;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1rem;
+}
+
+.concierge-content h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 0 0 0.85rem 0;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.concierge-content p {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+}
+
+.concierge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 /* ==========================================================================
