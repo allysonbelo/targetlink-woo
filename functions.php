@@ -96,7 +96,10 @@ function targetlink_woo_cart_link() {
  * Enqueue scripts and styles.
  */
 function targetlink_woo_scripts() {
-	wp_enqueue_style( 'targetlink-woo-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
+	$theme_version = file_exists( get_stylesheet_directory() . '/style.css' ) 
+		? filemtime( get_stylesheet_directory() . '/style.css' ) 
+		: wp_get_theme()->get( 'Version' );
+	wp_enqueue_style( 'targetlink-woo-style', get_stylesheet_uri(), array(), $theme_version );
 
     // Podemos enfileirar JS aqui depois para otimizações específicas de checkout
 }
