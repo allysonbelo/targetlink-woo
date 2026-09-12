@@ -208,3 +208,208 @@ function targetlink_woo_card_category_badge() {
 }
 add_action( 'woocommerce_shop_loop_item_title', 'targetlink_woo_card_category_badge', 5 );
 
+/**
+ * ==========================================================================
+ * Hooks Exclusivos para a Página Individual do Produto (Single Product)
+ * ==========================================================================
+ */
+
+/**
+ * 1. Eyebrow com Categoria e Coleção acima do H1 do Produto
+ */
+function targetlink_woo_single_category_eyebrow() {
+	global $product;
+	if ( ! $product ) {
+		return;
+	}
+	$categories = wc_get_product_terms( $product->get_id(), 'product_cat', array( 'orderby' => 'parent', 'order' => 'DESC' ) );
+	if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
+		echo '<div class="single-product-eyebrow"><a href="' . esc_url( get_term_link( $categories[0] ) ) . '">' . esc_html( $categories[0]->name ) . '</a> <span class="eyebrow-sep">&bull;</span> <span class="eyebrow-tag">COLEÇÃO EXCLUSIVA</span></div>';
+	}
+}
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_category_eyebrow', 3 );
+
+/**
+ * 2. Badge Dinâmico de Stock com Pulsing Dot
+ */
+function targetlink_woo_single_stock_badge() {
+	global $product;
+	if ( ! $product ) {
+		return;
+	}
+	if ( $product->is_in_stock() ) {
+		echo '<div class="single-product-stock-badge in-stock"><span class="pulse-dot"></span> ' . esc_html__( 'Em Stock &bull; Envio Imediato em 24h', 'targetlink-woo' ) . '</div>';
+	} else {
+		echo '<div class="single-product-stock-badge out-of-stock"><span class="pulse-dot-red"></span> ' . esc_html__( 'Esgotado no Momento', 'targetlink-woo' ) . '</div>';
+	}
+}
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_stock_badge', 12 );
+
+/**
+ * 2.1. Botão de Consultoria / Orçamento para peças com Preço sob consulta
+ */
+function targetlink_woo_empty_price_single_cta() {
+	global $product;
+	if ( ! $product || '' !== $product->get_price() ) {
+		return;
+	}
+	$product_title = $product->get_title();
+	$mailto_url    = 'mailto:suporte@simustore.local?subject=' . rawurlencode( 'Consulta sobre: ' . $product_title );
+	echo '<div class="single-product-quote-cta">';
+	echo '<a href="' . esc_url( $mailto_url ) . '" class="btn-quote">';
+	echo '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+	echo esc_html__( 'Falar com Consultor sobre esta Peça', 'targetlink-woo' );
+	echo '</a>';
+	echo '</div>';
+}
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_empty_price_single_cta', 29 );
+
+/**
+ * 3. Caixa de Vantagens e Conversão (Trust Box) e Métodos de Pagamento abaixo do botão
+ */
+function targetlink_woo_single_trust_perks() {
+	?>
+	<div class="single-product-trust-box">
+		<div class="trust-box-item">
+			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+			<div class="trust-item-content">
+				<strong>Portes Grátis</strong>
+				<span>Em encomendas superiores a € 50</span>
+			</div>
+		</div>
+		<div class="trust-box-item">
+			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+			<div class="trust-item-content">
+				<strong>30 Dias para Trocas</strong>
+				<span>Trocas simples e gratuitas em Portugal</span>
+			</div>
+		</div>
+		<div class="trust-box-item">
+			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+			<div class="trust-item-content">
+				<strong>Check-out 100% Blindado</strong>
+				<span>Criptografia SSL de 256 bits</span>
+			</div>
+		</div>
+		<div class="trust-box-item">
+			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+			<div class="trust-item-content">
+				<strong>Acabamento de Alfaiataria</strong>
+				<span>Garantia de 2 anos de durabilidade</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="single-product-payment-strip">
+		<span class="payment-title">Meios de Pagamento Seguros:</span>
+		<div class="payment-badges-list">
+			<span class="pay-badge">Multibanco</span>
+			<span class="pay-badge">MB WAY</span>
+			<span class="pay-badge">Visa</span>
+			<span class="pay-badge">Mastercard</span>
+			<span class="pay-badge">Apple Pay</span>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_trust_perks', 35 );
+
+/**
+ * 4. Customização e Tradução das Abas do Produto (Tabs)
+ */
+function targetlink_woo_custom_product_tabs( $tabs ) {
+	if ( isset( $tabs['description'] ) ) {
+		$tabs['description']['title'] = esc_html__( 'Descrição Detalhada', 'targetlink-woo' );
+	}
+	if ( isset( $tabs['reviews'] ) ) {
+		$tabs['reviews']['title'] = esc_html__( 'Avaliações dos Clientes', 'targetlink-woo' );
+	}
+	$tabs['size_guide'] = array(
+		'title'    => esc_html__( 'Guia de Tamanhos & Envio', 'targetlink-woo' ),
+		'priority' => 15,
+		'callback' => 'targetlink_woo_size_guide_tab_content',
+	);
+	return $tabs;
+}
+add_filter( 'woocommerce_product_tabs', 'targetlink_woo_custom_product_tabs' );
+
+/**
+ * 5. Personaliza o texto do botão no Single Product
+ */
+function targetlink_woo_single_add_to_cart_text( $text, $product ) {
+	if ( ! $product->is_in_stock() ) {
+		return esc_html__( 'Esgotado', 'targetlink-woo' );
+	}
+	return esc_html__( 'Adicionar ao Carrinho', 'targetlink-woo' );
+}
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'targetlink_woo_single_add_to_cart_text', 10, 2 );
+
+function targetlink_woo_size_guide_tab_content() {
+	?>
+	<div class="tab-size-guide-wrapper">
+		<h3>Tabela de Medidas de Referência (cm)</h3>
+		<p>Todas as peças da nossa coleção seguem rigorosamente a anatomia e o padrão de modelagem europeu.</p>
+		<div class="table-responsive">
+			<table class="size-guide-table">
+				<thead>
+					<tr>
+						<th>Tamanho</th>
+						<th>Peito (cm)</th>
+						<th>Cintura (cm)</th>
+						<th>Quadril (cm)</th>
+						<th>Comprimento Manga (cm)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>S / 36-38</strong></td>
+						<td>88 - 92</td>
+						<td>70 - 74</td>
+						<td>94 - 98</td>
+						<td>61</td>
+					</tr>
+					<tr>
+						<td><strong>M / 40-42</strong></td>
+						<td>96 - 100</td>
+						<td>78 - 82</td>
+						<td>102 - 106</td>
+						<td>63</td>
+					</tr>
+					<tr>
+						<td><strong>L / 44-46</strong></td>
+						<td>104 - 108</td>
+						<td>86 - 90</td>
+						<td>110 - 114</td>
+						<td>64</td>
+					</tr>
+					<tr>
+						<td><strong>XL / 48-50</strong></td>
+						<td>112 - 116</td>
+						<td>94 - 98</td>
+						<td>118 - 122</td>
+						<td>65</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-shipping-note">
+			<h4>Prazos de Entrega & Garantia</h4>
+			<ul>
+				<li><strong>Portugal Continental:</strong> 24h a 48h úteis via CTT Expresso (Portes grátis > €50).</li>
+				<li><strong>Ilhas (Madeira e Açores):</strong> 2 a 5 dias úteis com código de rastreamento enviado por e-mail/SMS.</li>
+				<li><strong>Política de Troca:</strong> Se o tamanho não ficar perfeito, realizamos a troca do seu artigo gratuitamente no prazo de 30 dias.</li>
+			</ul>
+		</div>
+	</div>
+	<?php
+}
+
+/**
+ * 5. Título Personalizado para os Produtos Relacionados
+ */
+function targetlink_woo_related_products_heading() {
+	return esc_html__( 'Complete o Seu Visual & Peças Relacionadas', 'targetlink-woo' );
+}
+add_filter( 'woocommerce_product_related_products_heading', 'targetlink_woo_related_products_heading' );
+
+

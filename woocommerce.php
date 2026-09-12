@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 
 $is_catalog = is_shop() || is_product_taxonomy();
+$is_single_product = is_singular( 'product' );
 ?>
 
-<div class="content-area woocommerce-shop-container">
+<div class="content-area woocommerce-shop-container <?php echo $is_single_product ? 'is-single-product-page' : ''; ?>">
 	<?php if ( $is_catalog ) : ?>
 		<!-- Shop Hero & Filter Bar com SVGs de Fundo -->
 		<div class="shop-hero-header">
@@ -112,10 +113,45 @@ $is_catalog = is_shop() || is_product_taxonomy();
 				</div>
 			</div>
 		</div>
+	<?php elseif ( $is_single_product ) : 
+		$single_product_id = get_the_ID();
+	?>
+		<!-- Top Bar & Breadcrumbs com SVGs Flutuantes para Single Product -->
+		<div class="single-product-header-bar">
+			<div class="single-product-bg-shapes" aria-hidden="true">
+				<svg class="bg-shape shape-p-1" width="350" height="350" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="100" cy="100" r="85" stroke="rgba(37,99,235,0.06)" stroke-width="35" />
+					<circle cx="100" cy="100" r="45" fill="rgba(37,99,235,0.02)" />
+				</svg>
+				<svg class="bg-shape shape-p-2" width="220" height="220" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect x="20" y="20" width="60" height="60" rx="16" stroke="rgba(15,23,42,0.03)" stroke-width="2" transform="rotate(30 50 50)" />
+				</svg>
+			</div>
+
+			<div class="single-product-header-inner">
+				<nav class="single-product-breadcrumbs">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Início</a>
+					<span class="sep">/</span>
+					<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">Catálogo</a>
+					<?php 
+					if ( $single_product_id ) {
+						$cats = wc_get_product_terms( $single_product_id, 'product_cat', array( 'orderby' => 'parent', 'order' => 'DESC' ) );
+						if ( ! empty( $cats ) && ! is_wp_error( $cats ) ) {
+							$primary_cat = $cats[0];
+							echo '<span class="sep">/</span>';
+							echo '<a href="' . esc_url( get_term_link( $primary_cat ) ) . '">' . esc_html( $primary_cat->name ) . '</a>';
+						}
+					}
+					?>
+					<span class="sep">/</span>
+					<span class="current"><?php the_title(); ?></span>
+				</nav>
+			</div>
+		</div>
 	<?php endif; ?>
 
-	<!-- Grid Principal de Produtos do WooCommerce -->
-	<div class="shop-main-content">
+	<!-- Grid Principal do WooCommerce -->
+	<div class="shop-main-content <?php echo $is_single_product ? 'single-product-wrapper' : ''; ?>">
 		<?php woocommerce_content(); ?>
 	</div>
 
@@ -190,6 +226,52 @@ $is_catalog = is_shop() || is_product_taxonomy();
 				<div class="concierge-actions">
 					<a href="mailto:suporte@simustore.local" class="btn btn-primary">Falar com um Consultor</a>
 					<a href="<?php echo esc_url( home_url( '/#faq' ) ); ?>" class="btn btn-outline">Consultar Perguntas Frequentes</a>
+				</div>
+			</div>
+		</section>
+	<?php elseif ( $is_single_product ) : ?>
+		<!-- Seção de Confiança & Garantia para o Produto Individual com SVGs -->
+		<section class="single-product-guarantee-section">
+			<div class="guarantee-grid">
+				<div class="guarantee-card">
+					<div class="guarantee-icon-wrap">
+						<svg class="guarantee-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<circle cx="24" cy="24" r="22" stroke="rgba(37,99,235,0.18)" stroke-width="2" fill="rgba(37,99,235,0.04)"/>
+							<path d="M15 24L21 30L33 18" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+					<div class="guarantee-info">
+						<h4>Padrão de Qualidade Rigoroso</h4>
+						<p>Peça desenvolvida com fibras nobres e costuras reforçadas que preservam o caimento após dezenas de lavagens.</p>
+					</div>
+				</div>
+
+				<div class="guarantee-card">
+					<div class="guarantee-icon-wrap">
+						<svg class="guarantee-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<circle cx="24" cy="24" r="22" stroke="rgba(16,185,129,0.18)" stroke-width="2" fill="rgba(16,185,129,0.04)"/>
+							<path d="M14 20H34V34C34 35.1 33.1 36 32 36H16C14.9 36 14 35.1 14 34V20Z" stroke="#10b981" stroke-width="2"/>
+							<path d="M14 20L24 13L34 20" stroke="#10b981" stroke-width="2"/>
+						</svg>
+					</div>
+					<div class="guarantee-info">
+						<h4>Embalagem Ecológica de Luxo</h4>
+						<p>Envio em caixa rígida protetora com papel de seda perfumado e selo de segurança intacto.</p>
+					</div>
+				</div>
+
+				<div class="guarantee-card">
+					<div class="guarantee-icon-wrap">
+						<svg class="guarantee-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<circle cx="24" cy="24" r="22" stroke="rgba(245,158,11,0.18)" stroke-width="2" fill="rgba(245,158,11,0.04)"/>
+							<circle cx="24" cy="24" r="11" stroke="#f59e0b" stroke-width="2"/>
+							<path d="M24 17V24L28 26" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+					</div>
+					<div class="guarantee-info">
+						<h4>Troca Simples em 30 Dias</h4>
+						<p>Se não servir ou não atender às suas expectativas, a primeira troca é por nossa conta com recolha ao domicílio.</p>
+					</div>
 				</div>
 			</div>
 		</section>
