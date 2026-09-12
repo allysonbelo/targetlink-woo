@@ -195,7 +195,45 @@ $hero_img = get_theme_file_uri( 'assets/images/hero-banner.jpg' );
 		</div>
 	</section>
 
-	<!-- 5. Banner Promocional / Frete Grátis com Visual Rico -->
+	<!-- 5. Brand Story / Atelier & Sustentabilidade -->
+	<?php $atelier_img = get_theme_file_uri( 'assets/images/craft-atelier.jpg' ); ?>
+	<section class="story-section">
+		<div class="story-grid">
+			<div class="story-image-wrap">
+				<img src="<?php echo esc_url( $atelier_img ); ?>" alt="Atelier de Costura e Alfaiataria" class="story-img" />
+				<div class="story-floating-stat">
+					<span class="stat-number">100%</span>
+					<span class="stat-label">Produção Ética e Sustentável</span>
+				</div>
+			</div>
+			<div class="story-content">
+				<span class="section-tag">Nossa Origem</span>
+				<h2 class="story-title">Artesanato de Precisão & Materiais Nobres</h2>
+				<p class="story-desc">
+					Acreditamos que uma peça de roupa deve transcender estações. Em cada corte e costura, unimos a herança têxtil tradicional à modelagem moderna e atemporal.
+				</p>
+				<p class="story-desc">
+					Trabalhamos exclusivamente com algodão orgânico, linho pré-lavado e lãs certificadas, garantindo um toque suave à pele e durabilidade incomparável.
+				</p>
+				<div class="story-metrics">
+					<div class="metric-box">
+						<strong>+15.000</strong>
+						<span>Peças Entregues</span>
+					</div>
+					<div class="metric-box">
+						<strong>0%</strong>
+						<span>Plástico nas Embalagens</span>
+					</div>
+					<div class="metric-box">
+						<strong>4.9/5</strong>
+						<span>Índice de Avaliação</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 6. Banner Promocional / Frete Grátis com Visual Rico -->
 	<section class="promo-banner-section">
 		<div class="promo-banner-card">
 			<div class="promo-badge">Portes Grátis</div>
@@ -207,7 +245,111 @@ $hero_img = get_theme_file_uri( 'assets/images/hero-banner.jpg' );
 		</div>
 	</section>
 
-	<!-- 6. Newsletter / Fidelização -->
+	<!-- 7. Depoimentos de Clientes (Social Proof) -->
+	<section class="testimonials-section">
+		<div class="section-header">
+			<span class="section-tag">Depoimentos</span>
+			<h2 class="section-title">O que Dizem os Nossos Clientes</h2>
+			<p class="section-subtitle">Avaliações reais de compradores verificados em Portugal e na Europa</p>
+		</div>
+
+		<div class="testimonials-grid">
+			<div class="testimonial-card">
+				<div class="testimonial-stars">★★★★★</div>
+				<p class="testimonial-text">
+					"O acabamento da camisa Oxford é de outro nível. O tecido tem um caimento perfeito e a entrega em Lisboa chegou em menos de 24 horas. Recomendo vivamente!"
+				</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">IS</div>
+					<div class="author-info">
+						<strong>Inês Santos</strong>
+						<span>Lisboa &bull; Compradora Verificada</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<div class="testimonial-stars">★★★★★</div>
+				<p class="testimonial-text">
+					"Comprei o casaco e fiquei surpreendido com a atenção aos detalhes. Desde a embalagem minimalista sem plástico até o toque do tecido. Vale cada cêntimo."
+				</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">MF</div>
+					<div class="author-info">
+						<strong>Miguel Ferreira</strong>
+						<span>Porto &bull; Comprador Verificado</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<div class="testimonial-stars">★★★★★</div>
+				<p class="testimonial-text">
+					"Processo de checkout super limpo e fluido, paguei por MB WAY num segundo. O atendimento pelo suporte tirou todas as minhas dúvidas de tamanho com muita simpatia."
+				</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">BC</div>
+					<div class="author-info">
+						<strong>Beatriz Costa</strong>
+						<span>Coimbra &bull; Compradora Verificada</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 8. FAQ Interativo (Dúvidas Frequentes) -->
+	<section class="faq-section">
+		<div class="section-header">
+			<span class="section-tag">Ajuda & Suporte</span>
+			<h2 class="section-title">Perguntas Frequentes</h2>
+			<p class="section-subtitle">Tudo o que precisa de saber antes de realizar a sua encomenda</p>
+		</div>
+
+		<div class="faq-accordion">
+			<details class="faq-item" open>
+				<summary class="faq-question">
+					<span>Quanto tempo demora o envio da encomenda?</span>
+					<span class="faq-icon">+</span>
+				</summary>
+				<div class="faq-answer">
+					<p>Para Portugal Continental e Espanha, as encomendas são entregues em 24h a 48h úteis via transportadora expresso. Para o restante território europeu, o prazo médio é de 3 a 5 dias úteis.</p>
+				</div>
+			</details>
+
+			<details class="faq-item">
+				<summary class="faq-question">
+					<span>Quais são os métodos de pagamento disponíveis?</span>
+					<span class="faq-icon">+</span>
+				</summary>
+				<div class="faq-answer">
+					<p>Aceitamos Multibanco, MB WAY, Cartões de Crédito/Débito (Visa, Mastercard, American Express) e Transferência Bancária protegida com encriptação SSL de 256 bits.</p>
+				</div>
+			</details>
+
+			<details class="faq-item">
+				<summary class="faq-question">
+					<span>Como funciona a política de trocas e devoluções?</span>
+					<span class="faq-icon">+</span>
+				</summary>
+				<div class="faq-answer">
+					<p>Oferecemos 30 dias após a receção do produto para efetuar trocas ou devoluções gratuitas, desde que as peças não tenham sido usadas e mantenham as etiquetas originais.</p>
+				</div>
+			</details>
+
+			<details class="faq-item">
+				<summary class="faq-question">
+					<span>Os materiais utilizados são sustentáveis?</span>
+					<span class="faq-icon">+</span>
+				</summary>
+				<div class="faq-answer">
+					<p>Sim. Todas as nossas coleções priorizam fibras naturais, algodão com certificação GOTS e processos de tingimento que reduzem em até 60% o consumo de água.</p>
+				</div>
+			</details>
+		</div>
+	</section>
+
+	<!-- 9. Newsletter / Fidelização -->
 	<section class="newsletter-section">
 		<div class="newsletter-content">
 			<span class="section-tag">Desconto Exclusivo</span>
