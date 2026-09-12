@@ -34,7 +34,7 @@ function targetlink_woo_setup() {
 		)
 	);
 
-	// WooCommerce Support - ESSENCIAL PARA A VAGA
+	// Suporte nativo ao ecossistema WooCommerce
 	add_theme_support( 'woocommerce', array(
 		'thumbnail_image_width' => 300,
 		'single_image_width'    => 600,

@@ -4,7 +4,7 @@
 		<div class="site-info">
 			&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>. Todos os direitos reservados.
 			<br>
-			<span class="developer-credit">Desenvolvido com foco em alta performance (TargetLink Demo).</span>
+			<span class="developer-credit">Desenvolvido com foco em alta performance e experiência mobile-first.</span>
 		</div><!-- .site-info -->
 	</footer><!-- .site-footer -->
 </div><!-- .site-wrapper -->
