@@ -2188,8 +2188,7 @@ a:hover {
 
 .woocommerce-product-gallery .woocommerce-product-gallery__image {
   margin: 0 !important;
-  width: 100% !important;
-  overflow: hidden;
+  padding: 0 !important;
 }
 
 .woocommerce-product-gallery .woocommerce-product-gallery__image a {
@@ -2197,17 +2196,16 @@ a:hover {
   width: 100%;
 }
 
-/* Imagem principal do slide */
+/* Imagem principal do slide: preenche o slide respeitando a proporção natural sem zoom forçado */
 .woocommerce-product-gallery .woocommerce-product-gallery__image img:not(.zoomImg) {
-  width: 100% !important;
-  height: auto !important;
-  max-height: 600px;
-  object-fit: cover;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
   display: block;
   margin: 0 auto;
 }
 
-/* Preserva as dimensões naturais do jquery.zoom */
+/* Preserva as dimensões e comportamento do jquery.zoom */
 .woocommerce-product-gallery img.zoomImg {
   max-width: none !important;
   max-height: none !important;
