@@ -2122,17 +2122,26 @@ a:hover {
   margin-bottom: 4rem;
 }
 
+/* 3. Palco do Produto: Layout Grid 2 Colunas */
+.single-product-stage-wrapper {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 4rem;
+  width: 100%;
+}
+
 .woocommerce div.product {
   display: grid !important;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) !important;
   gap: 2.5rem;
   position: relative;
+  width: 100%;
 }
 
 @media (min-width: 992px) {
   .woocommerce div.product {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 4rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 3.5rem;
     align-items: start;
   }
 }
@@ -2141,30 +2150,67 @@ a:hover {
 .woocommerce div.product div.images {
   float: none !important;
   width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
   margin: 0 !important;
   position: relative;
+  overflow: hidden;
 }
 
-.woocommerce-product-gallery__wrapper {
+/* Viewport do Flexslider ou Wrapper de Imagem Única */
+.woocommerce-product-gallery .flex-viewport {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: var(--radius-lg);
+  overflow: hidden !important;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1rem;
+}
+
+/* Container de fallback quando não há slider (apenas 1 imagem) */
+.woocommerce-product-gallery:not(:has(.flex-viewport)) .woocommerce-product-gallery__wrapper {
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: #ffffff;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-md);
-  transition: var(--transition);
 }
 
-.woocommerce-product-gallery__wrapper:hover {
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-border-hover);
+/* Track interna do Flexslider: não deve ter bordas nem transições CSS que colidam com o JS */
+.woocommerce-product-gallery .flex-viewport .woocommerce-product-gallery__wrapper {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transition: none !important;
 }
 
-.woocommerce-product-gallery__image img {
+.woocommerce-product-gallery .woocommerce-product-gallery__image {
+  margin: 0 !important;
+  width: 100% !important;
+  overflow: hidden;
+}
+
+.woocommerce-product-gallery .woocommerce-product-gallery__image a {
+  display: block;
   width: 100%;
-  height: auto;
-  max-height: 580px;
+}
+
+/* Imagem principal do slide */
+.woocommerce-product-gallery .woocommerce-product-gallery__image img:not(.zoomImg) {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 600px;
   object-fit: cover;
   display: block;
+  margin: 0 auto;
+}
+
+/* Preserva as dimensões naturais do jquery.zoom */
+.woocommerce-product-gallery img.zoomImg {
+  max-width: none !important;
+  max-height: none !important;
 }
 
 /* Botão de Zoom na Imagem */
@@ -2202,45 +2248,55 @@ a:hover {
   position: static !important;
 }
 
-/* Miniaturas Flexslider / Galeria */
-.woocommerce-product-gallery .flex-control-thumbs {
+/* Miniaturas da Galeria (Flexslider Thumbs) */
+.woocommerce-product-gallery ol.flex-control-thumbs,
+.woocommerce-product-gallery ul.flex-control-thumbs {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 0.75rem !important;
   margin: 1rem 0 0 0 !important;
   padding: 0 !important;
   list-style: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  clear: both;
 }
 
-.woocommerce-product-gallery .flex-control-thumbs li {
+.woocommerce-product-gallery ol.flex-control-thumbs li,
+.woocommerce-product-gallery ul.flex-control-thumbs li {
   width: 100% !important;
+  max-width: 100% !important;
   float: none !important;
+  margin: 0 !important;
   border-radius: var(--radius-md);
   overflow: hidden;
-  border: 2px solid transparent;
+  border: 2px solid var(--color-border);
   cursor: pointer;
-  background: var(--color-surface);
+  background: #ffffff;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
+  aspect-ratio: 1 / 1;
 }
 
-.woocommerce-product-gallery .flex-control-thumbs li img {
+.woocommerce-product-gallery ol.flex-control-thumbs li img,
+.woocommerce-product-gallery ul.flex-control-thumbs li img {
   width: 100% !important;
-  height: 85px !important;
+  height: 100% !important;
   object-fit: cover !important;
   opacity: 0.75;
   transition: var(--transition);
+  display: block;
 }
 
-.woocommerce-product-gallery .flex-control-thumbs li:hover img,
-.woocommerce-product-gallery .flex-control-thumbs li img.flex-active {
+.woocommerce-product-gallery ol.flex-control-thumbs li:hover img,
+.woocommerce-product-gallery ol.flex-control-thumbs li img.flex-active {
   opacity: 1;
-  transform: scale(1.05);
 }
 
-.woocommerce-product-gallery .flex-control-thumbs li:hover,
-.woocommerce-product-gallery .flex-control-thumbs li:has(img.flex-active) {
+.woocommerce-product-gallery ol.flex-control-thumbs li:hover,
+.woocommerce-product-gallery ol.flex-control-thumbs li:has(img.flex-active) {
   border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
 /* 5. Área de Compra e Resumo (Coluna Direita) */
