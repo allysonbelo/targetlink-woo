@@ -96,10 +96,7 @@ function targetlink_woo_cart_link() {
  * Enqueue scripts and styles.
  */
 function targetlink_woo_scripts() {
-	$theme_version = file_exists( get_stylesheet_directory() . '/style.css' ) 
-		? filemtime( get_stylesheet_directory() . '/style.css' ) 
-		: wp_get_theme()->get( 'Version' );
-	wp_enqueue_style( 'targetlink-woo-style', get_stylesheet_uri(), array(), $theme_version );
+	wp_enqueue_style( 'targetlink-woo-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
 
     // Podemos enfileirar JS aqui depois para otimizações específicas de checkout
 }
@@ -213,206 +210,182 @@ add_action( 'woocommerce_shop_loop_item_title', 'targetlink_woo_card_category_ba
 
 /**
  * ==========================================================================
- * Hooks Exclusivos para a Página Individual do Produto (Single Product)
+ * Hooks & Filtros Específicos para a Página de Produto (Single Product)
  * ==========================================================================
  */
 
 /**
- * 1. Eyebrow com Categoria e Coleção acima do H1 do Produto
+ * 1. Exibe a categoria em pill estilizado acima do título na página do produto
  */
-function targetlink_woo_single_category_eyebrow() {
+function targetlink_woo_single_category_pill() {
 	global $product;
 	if ( ! $product ) {
 		return;
 	}
-	$categories = wc_get_product_terms( $product->get_id(), 'product_cat', array( 'orderby' => 'parent', 'order' => 'DESC' ) );
-	if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
-		echo '<div class="single-product-eyebrow"><a href="' . esc_url( get_term_link( $categories[0] ) ) . '">' . esc_html( $categories[0]->name ) . '</a> <span class="eyebrow-sep">&bull;</span> <span class="eyebrow-tag">COLEÇÃO EXCLUSIVA</span></div>';
+	$categories = wc_get_product_category_list( $product->get_id(), ', ', '<div class="single-product-cat-pill">', '</div>' );
+	if ( $categories && ! is_wp_error( $categories ) ) {
+		echo $categories;
 	}
 }
-add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_category_eyebrow', 3 );
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_category_pill', 4 );
 
 /**
- * 2. Badge Dinâmico de Stock com Pulsing Dot
+ * 2. Texto amigável do botão de compra na página do produto
  */
-function targetlink_woo_single_stock_badge() {
-	global $product;
-	if ( ! $product ) {
-		return;
+function targetlink_woo_single_add_to_cart_text( $text, $product ) {
+	if ( ! $product->is_in_stock() ) {
+		return esc_html__( 'Produto Esgotado', 'targetlink-woo' );
 	}
-	if ( $product->is_in_stock() ) {
-		echo '<div class="single-product-stock-badge in-stock"><span class="pulse-dot"></span> ' . esc_html__( 'Em Stock &bull; Envio Imediato em 24h', 'targetlink-woo' ) . '</div>';
-	} else {
-		echo '<div class="single-product-stock-badge out-of-stock"><span class="pulse-dot-red"></span> ' . esc_html__( 'Esgotado no Momento', 'targetlink-woo' ) . '</div>';
-	}
+	return esc_html__( 'Adicionar ao Carrinho', 'targetlink-woo' );
 }
-add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_stock_badge', 12 );
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'targetlink_woo_single_add_to_cart_text', 10, 2 );
 
 /**
- * 2.1. Botão de Consultoria / Orçamento para peças com Preço sob consulta
+ * 3. Formatação moderna e em português do indicador de disponibilidade em stock
  */
-function targetlink_woo_empty_price_single_cta() {
-	global $product;
-	if ( ! $product || '' !== $product->get_price() ) {
-		return;
+function targetlink_woo_custom_availability_text( $availability, $product ) {
+	if ( ! $product->is_in_stock() ) {
+		return esc_html__( 'Esgotado temporariamente', 'targetlink-woo' );
 	}
-	$product_title = $product->get_title();
-	$mailto_url    = 'mailto:suporte@simustore.local?subject=' . rawurlencode( 'Consulta sobre: ' . $product_title );
-	echo '<div class="single-product-quote-cta">';
-	echo '<a href="' . esc_url( $mailto_url ) . '" class="btn-quote">';
-	echo '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
-	echo esc_html__( 'Falar com Consultor sobre esta Peça', 'targetlink-woo' );
-	echo '</a>';
-	echo '</div>';
+	$qty = $product->get_stock_quantity();
+	if ( $qty ) {
+		return sprintf( esc_html__( 'Em Stock (%d unidades prontas para envio)', 'targetlink-woo' ), $qty );
+	}
+	return esc_html__( 'Em Stock — Pronto para envio em 24h', 'targetlink-woo' );
 }
-add_action( 'woocommerce_single_product_summary', 'targetlink_woo_empty_price_single_cta', 29 );
+add_filter( 'woocommerce_get_availability_text', 'targetlink_woo_custom_availability_text', 10, 2 );
 
 /**
- * 3. Caixa de Vantagens e Conversão (Trust Box) e Métodos de Pagamento abaixo do botão
+ * 4. Bloco de Confiança & Garantias (exibido logo abaixo do botão Adicionar ao Carrinho)
  */
-function targetlink_woo_single_trust_perks() {
+function targetlink_woo_single_trust_box() {
 	?>
-	<div class="single-product-trust-box">
-		<div class="trust-box-item">
-			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-			<div class="trust-item-content">
-				<strong>Portes Grátis</strong>
-				<span>Em encomendas superiores a € 50</span>
+	<div class="product-trust-perks">
+		<div class="trust-perk-item">
+			<div class="trust-perk-icon-wrap">
+				<svg class="trust-perk-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+			</div>
+			<div class="trust-perk-text">
+				<strong>Envio Rápido 24/48h</strong>
+				<span>Entrega via CTT Expresso em Portugal</span>
 			</div>
 		</div>
-		<div class="trust-box-item">
-			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-			<div class="trust-item-content">
+		<div class="trust-perk-item">
+			<div class="trust-perk-icon-wrap">
+				<svg class="trust-perk-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+			</div>
+			<div class="trust-perk-text">
 				<strong>30 Dias para Trocas</strong>
-				<span>Trocas simples e gratuitas em Portugal</span>
+				<span>Trocas simples sem custos adicionais</span>
 			</div>
 		</div>
-		<div class="trust-box-item">
-			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-			<div class="trust-item-content">
-				<strong>Check-out 100% Blindado</strong>
-				<span>Criptografia SSL de 256 bits</span>
+		<div class="trust-perk-item">
+			<div class="trust-perk-icon-wrap">
+				<svg class="trust-perk-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+			</div>
+			<div class="trust-perk-text">
+				<strong>Pagamento 100% Seguro</strong>
+				<span>MB WAY, Multibanco, Cartões e BACS</span>
 			</div>
 		</div>
-		<div class="trust-box-item">
-			<svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-			<div class="trust-item-content">
-				<strong>Acabamento de Alfaiataria</strong>
-				<span>Garantia de 2 anos de durabilidade</span>
+		<div class="trust-perk-item">
+			<div class="trust-perk-icon-wrap">
+				<svg class="trust-perk-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
 			</div>
-		</div>
-	</div>
-
-	<div class="single-product-payment-strip">
-		<span class="payment-title">Meios de Pagamento Seguros:</span>
-		<div class="payment-badges-list">
-			<span class="pay-badge">Multibanco</span>
-			<span class="pay-badge">MB WAY</span>
-			<span class="pay-badge">Visa</span>
-			<span class="pay-badge">Mastercard</span>
-			<span class="pay-badge">Apple Pay</span>
+			<div class="trust-perk-text">
+				<strong>Qualidade Assegurada</strong>
+				<span>Confeção premium e acabamento rigoroso</span>
+			</div>
 		</div>
 	</div>
 	<?php
 }
-add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_trust_perks', 35 );
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_trust_box', 35 );
 
 /**
- * 4. Customização e Tradução das Abas do Produto (Tabs)
+ * 5. Menus Retráteis (Accordions) para Detalhes, Cuidados e Envios
+ */
+function targetlink_woo_single_accordions() {
+	?>
+	<div class="product-summary-accordions">
+		<details class="product-accordion-item" open>
+			<summary class="accordion-header">
+				<span class="accordion-title">
+					<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+					Detalhes da Peça & Confeção
+				</span>
+				<span class="accordion-toggle-icon" aria-hidden="true">+</span>
+			</summary>
+			<div class="accordion-content">
+				<p>Peça concebida com modelagem ergonómica para máximo conforto e elegância natural. Fibras selecionadas de alta densidade que mantêm a estrutura mesmo após uso contínuo.</p>
+				<ul class="accordion-bullets">
+					<li>Acabamentos interiores reforçados com costura dupla</li>
+					<li>Tratamento pré-lavado que previne o encolhimento doméstico</li>
+					<li>Etiqueta interna macia sem atrito cutâneo</li>
+				</ul>
+			</div>
+		</details>
+
+		<details class="product-accordion-item">
+			<summary class="accordion-header">
+				<span class="accordion-title">
+					<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+					Instruções de Lavagem & Conservação
+				</span>
+				<span class="accordion-toggle-icon" aria-hidden="true">+</span>
+			</summary>
+			<div class="accordion-content">
+				<p>Para manter a suavidade das fibras e a vivacidade da cor por longos anos:</p>
+				<ul class="accordion-bullets">
+					<li>Lavar à máquina em ciclo delicado até 30ºC</li>
+					<li>Não usar lixívia ou produtos com cloro ativo</li>
+					<li>Secar à sombra, evitando centrifugação agressiva</li>
+					<li>Passar pelo avesso com ferro a baixa temperatura (máx. 110ºC)</li>
+				</ul>
+			</div>
+		</details>
+
+		<details class="product-accordion-item">
+			<summary class="accordion-header">
+				<span class="accordion-title">
+					<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+					Prazos de Envio & Devolução Grátis
+				</span>
+				<span class="accordion-toggle-icon" aria-hidden="true">+</span>
+			</summary>
+			<div class="accordion-content">
+				<p><strong>Portugal Continental:</strong> Entrega em 24h a 48h úteis via CTT Expresso com código de rastreio enviado por SMS.</p>
+				<p><strong>Regiões Autónomas:</strong> Entrega em 48h a 72h úteis.</p>
+				<p><strong>Trocas e Devoluções:</strong> 30 dias após a receção para solicitar troca de tamanho ou devolução integral gratuita.</p>
+			</div>
+		</details>
+	</div>
+	<?php
+}
+add_action( 'woocommerce_single_product_summary', 'targetlink_woo_single_accordions', 38 );
+
+/**
+ * 6. Títulos elegantes em português para as abas do produto
  */
 function targetlink_woo_custom_product_tabs( $tabs ) {
 	if ( isset( $tabs['description'] ) ) {
 		$tabs['description']['title'] = esc_html__( 'Descrição Detalhada', 'targetlink-woo' );
 	}
 	if ( isset( $tabs['reviews'] ) ) {
-		$tabs['reviews']['title'] = esc_html__( 'Avaliações dos Clientes', 'targetlink-woo' );
+		$tabs['reviews']['title'] = esc_html__( 'Avaliações de Clientes', 'targetlink-woo' );
 	}
-	$tabs['size_guide'] = array(
-		'title'    => esc_html__( 'Guia de Tamanhos & Envio', 'targetlink-woo' ),
-		'priority' => 15,
-		'callback' => 'targetlink_woo_size_guide_tab_content',
-	);
+	if ( isset( $tabs['additional_information'] ) ) {
+		$tabs['additional_information']['title'] = esc_html__( 'Especificações Técnicas', 'targetlink-woo' );
+	}
 	return $tabs;
 }
-add_filter( 'woocommerce_product_tabs', 'targetlink_woo_custom_product_tabs' );
+add_filter( 'woocommerce_product_tabs', 'targetlink_woo_custom_product_tabs', 98 );
 
 /**
- * 5. Personaliza o texto do botão no Single Product
+ * 7. Título da seção de produtos relacionados
  */
-function targetlink_woo_single_add_to_cart_text( $text, $product ) {
-	if ( ! $product->is_in_stock() ) {
-		return esc_html__( 'Esgotado', 'targetlink-woo' );
-	}
-	return esc_html__( 'Adicionar ao Carrinho', 'targetlink-woo' );
-}
-add_filter( 'woocommerce_product_single_add_to_cart_text', 'targetlink_woo_single_add_to_cart_text', 10, 2 );
-
-function targetlink_woo_size_guide_tab_content() {
-	?>
-	<div class="tab-size-guide-wrapper">
-		<h3>Tabela de Medidas de Referência (cm)</h3>
-		<p>Todas as peças da nossa coleção seguem rigorosamente a anatomia e o padrão de modelagem europeu.</p>
-		<div class="table-responsive">
-			<table class="size-guide-table">
-				<thead>
-					<tr>
-						<th>Tamanho</th>
-						<th>Peito (cm)</th>
-						<th>Cintura (cm)</th>
-						<th>Quadril (cm)</th>
-						<th>Comprimento Manga (cm)</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><strong>S / 36-38</strong></td>
-						<td>88 - 92</td>
-						<td>70 - 74</td>
-						<td>94 - 98</td>
-						<td>61</td>
-					</tr>
-					<tr>
-						<td><strong>M / 40-42</strong></td>
-						<td>96 - 100</td>
-						<td>78 - 82</td>
-						<td>102 - 106</td>
-						<td>63</td>
-					</tr>
-					<tr>
-						<td><strong>L / 44-46</strong></td>
-						<td>104 - 108</td>
-						<td>86 - 90</td>
-						<td>110 - 114</td>
-						<td>64</td>
-					</tr>
-					<tr>
-						<td><strong>XL / 48-50</strong></td>
-						<td>112 - 116</td>
-						<td>94 - 98</td>
-						<td>118 - 122</td>
-						<td>65</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="tab-shipping-note">
-			<h4>Prazos de Entrega & Garantia</h4>
-			<ul>
-				<li><strong>Portugal Continental:</strong> 24h a 48h úteis via CTT Expresso (Portes grátis > €50).</li>
-				<li><strong>Ilhas (Madeira e Açores):</strong> 2 a 5 dias úteis com código de rastreamento enviado por e-mail/SMS.</li>
-				<li><strong>Política de Troca:</strong> Se o tamanho não ficar perfeito, realizamos a troca do seu artigo gratuitamente no prazo de 30 dias.</li>
-			</ul>
-		</div>
-	</div>
-	<?php
-}
-
-/**
- * 5. Título Personalizado para os Produtos Relacionados
- */
-function targetlink_woo_related_products_heading() {
-	return esc_html__( 'Complete o Seu Visual & Peças Relacionadas', 'targetlink-woo' );
-}
-add_filter( 'woocommerce_product_related_products_heading', 'targetlink_woo_related_products_heading' );
+add_filter( 'woocommerce_product_related_products_heading', function() {
+	return esc_html__( 'Também Poderá Gostar', 'targetlink-woo' );
+} );
 
 
