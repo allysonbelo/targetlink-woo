@@ -3064,6 +3064,21 @@ a:hover {
   font-size: 0.825rem;
   font-weight: 600;
   color: #94a3b8;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.checkout-steps-bar a.step-item:hover {
+  color: var(--color-accent);
+}
+
+.checkout-steps-bar .step-item.is-completed {
+  color: #10b981;
+}
+
+.checkout-steps-bar .step-item.is-completed .step-num {
+  background: #dcfce7;
+  color: #16a34a;
 }
 
 .checkout-steps-bar .step-item.is-active {
@@ -3082,6 +3097,7 @@ a:hover {
   justify-content: center;
   font-size: 0.75rem;
   font-weight: 700;
+  transition: var(--transition);
 }
 
 .checkout-steps-bar .step-item.is-active .step-num {
@@ -3095,6 +3111,11 @@ a:hover {
   height: 1px;
   background: #cbd5e1;
   display: inline-block;
+  transition: var(--transition);
+}
+
+.checkout-steps-bar .step-divider.is-completed {
+  background: #10b981;
 }
 
 /* 3. Título & Subtítulo */
@@ -3233,6 +3254,7 @@ a:hover {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
+  width: 100% !important;
 }
 
 @media (min-width: 768px) {
@@ -3673,31 +3695,31 @@ td.wc-block-cart-item__image a:hover img,
 }
 
 .wc-block-grid__product-onsale {
-  position: absolute !important;
-  top: 1.75rem !important;
-  left: 1.75rem !important;
-  right: auto !important;
-  bottom: auto !important;
-  width: auto !important;
-  max-width: fit-content !important;
-  min-width: 0 !important;
-  height: auto !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: #ef4444 !important;
-  color: #ffffff !important;
-  font-size: 0.7rem !important;
-  font-weight: 800 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  padding: 0.25rem 0.65rem !important;
-  border-radius: var(--radius-full) !important;
-  line-height: 1 !important;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35) !important;
-  z-index: 10 !important;
-  pointer-events: none !important;
-  margin: 0 !important;
+    position: absolute !important;
+    top: 0.55rem !important;
+    left: auto !important;
+    right: 6px !important;
+    bottom: auto !important;
+    width: auto !important;
+    max-width: fit-content !important;
+    min-width: 0 !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    font-size: 0.7rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 0.25rem 0.65rem !important;
+    border-radius: var(--radius-full) !important;
+    line-height: 1 !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
 }
 
 .wc-block-grid__product-add-to-cart {
@@ -3855,6 +3877,641 @@ td.wc-block-cart-item__image a:hover img,
 
 .support-link.secondary:hover {
   background: #e2e8f0;
+}
+
+/* ==========================================================================
+   Página de Checkout - Design de Luxo & Alta Performance
+   ========================================================================== */
+.checkout-page-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  position: relative;
+  min-height: 80vh;
+}
+
+/* Background Decorativo Geométrico */
+.checkout-bg-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.checkout-bg-decor .shape-ck-1 {
+  position: absolute;
+  top: 2%;
+  right: -50px;
+  animation: floatAnimation 8s ease-in-out infinite alternate;
+}
+
+.checkout-bg-decor .shape-ck-2 {
+  position: absolute;
+  top: 35%;
+  left: -40px;
+  animation: floatAnimation 10s ease-in-out infinite alternate-reverse;
+}
+
+.checkout-bg-decor .shape-ck-3 {
+  position: absolute;
+  bottom: 15%;
+  right: 5%;
+  animation: floatAnimation 9s ease-in-out infinite alternate;
+}
+
+/* Header & Breadcrumbs do Checkout */
+.checkout-header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+}
+
+.checkout-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.checkout-breadcrumbs a {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.checkout-breadcrumbs a:hover {
+  color: var(--color-accent);
+}
+
+.checkout-breadcrumbs .sep {
+  color: #cbd5e1;
+}
+
+.checkout-breadcrumbs .current {
+  color: var(--color-text-dark);
+  font-weight: 700;
+}
+
+/* Faixa de Garantia de Segurança SSL no Topo */
+.checkout-security-notice-strip {
+  background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--shadow-sm);
+}
+
+.security-notice-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+}
+
+.security-badge-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #10b981;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+}
+
+.security-notice-text {
+  font-size: 0.875rem;
+  color: var(--color-text-dark);
+}
+
+.security-methods-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.security-method-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  background: #ffffff;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #cbd5e1;
+}
+
+/* Título e Subtítulo Principal */
+.checkout-title-section {
+  margin-bottom: 2.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.checkout-main-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.checkout-main-subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.checkout-block-container {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 3.5rem;
+}
+
+/* ==========================================================================
+   Estilização dos Blocos Nativos de Checkout WooCommerce
+   ========================================================================== */
+.wp-block-woocommerce-checkout,
+.wc-block-checkout {
+  position: relative;
+  z-index: 2;
+  margin: 0 !important;
+}
+
+/* Grid de 2 Colunas */
+.wc-block-checkout__form {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .wc-block-checkout__form {
+    grid-template-columns: minmax(0, 1.45fr) 400px !important;
+    gap: 2.75rem !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .wc-block-checkout__form {
+    grid-template-columns: minmax(0, 1.6fr) 430px !important;
+    gap: 3.5rem !important;
+  }
+}
+
+/* Títulos de Cada Bloco */
+.wc-block-components-checkout-step__title,
+.wp-block-woocommerce-checkout-fields-block h2,
+.wc-block-checkout__main h2 {
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: var(--color-text-dark) !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 0 1.25rem 0 !important;
+  padding-bottom: 0.65rem !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+}
+
+/* Cartões Brancos Individuais por Seção */
+.wp-block-woocommerce-checkout-contact-information-block,
+.wp-block-woocommerce-checkout-shipping-address-block,
+.wp-block-woocommerce-checkout-billing-address-block,
+.wp-block-woocommerce-checkout-shipping-methods-block,
+.wp-block-woocommerce-checkout-shipping-method-block,
+.wp-block-woocommerce-checkout-payment-block,
+.wp-block-woocommerce-checkout-order-note-block,
+.wp-block-woocommerce-checkout-additional-information-block {
+  background: #ffffff !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 1.75rem !important;
+  box-shadow: var(--shadow-sm) !important;
+  margin-bottom: 1.75rem !important;
+  transition: var(--transition) !important;
+}
+
+.wp-block-woocommerce-checkout-contact-information-block:hover,
+.wp-block-woocommerce-checkout-shipping-address-block:hover,
+.wp-block-woocommerce-checkout-shipping-methods-block:hover,
+.wp-block-woocommerce-checkout-payment-block:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* Inputs de Texto e Controles de Formulário */
+.wc-block-components-text-input,
+.wc-blocks-components-select,
+.wc-block-components-combobox-control {
+  margin-top: 14px !important;
+}
+
+.wc-block-components-text-input input,
+.wc-blocks-components-select__select,
+.wc-block-components-combobox-control input,
+.wc-block-checkout__form input[type="text"],
+.wc-block-checkout__form input[type="email"],
+.wc-block-checkout__form input[type="tel"],
+.wc-block-checkout__form textarea {
+  border: 1.5px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  background: #ffffff !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text-dark) !important;
+  transition: var(--transition) !important;
+  box-shadow: none !important;
+  padding: 0.75rem 1rem !important;
+  min-height: 48px !important;
+}
+
+.wc-block-components-text-input input:focus,
+.wc-blocks-components-select__select:focus,
+.wc-block-checkout__form input:focus,
+.wc-block-checkout__form textarea:focus {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  outline: none !important;
+}
+
+/* Cartão de Morada Pré-preenchida */
+.wc-block-components-address-card {
+  background: #f8fafc !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1.25rem 1.5rem !important;
+  transition: var(--transition) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.wc-block-components-address-card:hover {
+  background: #ffffff !important;
+  border-color: var(--color-accent) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.wc-block-components-address-card address {
+  font-style: normal !important;
+  color: var(--color-text-dark) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+}
+
+.wc-block-components-address-card__address-section--primary {
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  color: var(--color-text-dark) !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.wc-block-components-address-card__edit {
+  background: var(--color-accent-light) !important;
+  color: var(--color-accent) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  padding: 0.4rem 0.95rem !important;
+  border-radius: var(--radius-sm) !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: var(--transition) !important;
+  text-decoration: none !important;
+}
+
+.wc-block-components-address-card__edit:hover {
+  background: var(--color-accent) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* Opções de Envio (Shipping Methods) */
+.wc-block-checkout__shipping-method-container {
+  background: transparent !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+}
+
+.wc-block-checkout__shipping-method-option {
+  background: #ffffff !important;
+  border: 1.5px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1rem 1.25rem !important;
+  transition: var(--transition) !important;
+  cursor: pointer !important;
+}
+
+.wc-block-checkout__shipping-method-option:hover {
+  border-color: #cbd5e1 !important;
+  background: #f8fafc !important;
+}
+
+.wc-block-checkout__shipping-method-option.wc-block-checkout__shipping-method-option--selected {
+  border-color: var(--color-accent) !important;
+  background: #eff6ff !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
+}
+
+.wc-block-checkout__shipping-method-option-title {
+  font-weight: 700 !important;
+  color: var(--color-text-dark) !important;
+  font-size: 0.95rem !important;
+}
+
+.wc-block-checkout__shipping-method-option-price {
+  font-weight: 800 !important;
+  color: var(--color-text-dark) !important;
+}
+
+/* Opções de Pagamento (Payment Methods Accordion) */
+.wc-block-checkout__payment-method .wc-block-components-radio-control-accordion-option {
+  border: 1.5px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  margin-bottom: 0.85rem !important;
+  overflow: hidden !important;
+  transition: var(--transition) !important;
+  background: #ffffff !important;
+}
+
+.wc-block-checkout__payment-method .wc-block-components-radio-control-accordion-option:hover {
+  border-color: #cbd5e1 !important;
+}
+
+.wc-block-checkout__payment-method .wc-block-components-radio-control-accordion-option:has(input:checked) {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
+}
+
+.wc-block-checkout__payment-method .wc-block-components-radio-control__label {
+  padding: 1.15rem 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-dark) !important;
+  font-size: 0.95rem !important;
+}
+
+.wc-block-components-radio-control-accordion-content {
+  background: #f8fafc !important;
+  border-top: 1px solid #f1f5f9 !important;
+  padding: 1.25rem !important;
+  color: var(--color-text) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.55 !important;
+}
+
+/* Termos e Políticas */
+.wp-block-woocommerce-checkout-terms-block,
+.wc-block-checkout__terms {
+  font-size: 0.825rem !important;
+  color: var(--color-text-muted) !important;
+  margin: 1.5rem 0 1rem 0 !important;
+  line-height: 1.5 !important;
+}
+
+.wp-block-woocommerce-checkout-terms-block a,
+.wc-block-checkout__terms a {
+  color: var(--color-accent) !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+}
+
+/* Botão de Finalizar Encomenda (Place Order) */
+.wc-block-components-checkout-place-order-button {
+  width: 100% !important;
+  min-height: 56px !important;
+  height: auto !important;
+  background: var(--color-primary) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  padding: 1rem 1.5rem !important;
+  transition: var(--transition) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2) !important;
+  box-sizing: border-box !important;
+}
+
+.wc-block-components-checkout-place-order-button:hover {
+  background: var(--color-accent) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3) !important;
+}
+
+.wc-block-components-checkout-place-order-button .wc-block-components-button__text {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* ==========================================================================
+   Coluna da Direita: Resumo da Encomenda (Order Summary Sidebar)
+   ========================================================================== */
+.wc-block-checkout__sidebar,
+.wp-block-woocommerce-checkout-totals-block {
+  position: sticky !important;
+  top: 100px !important;
+  z-index: 5;
+}
+
+.wp-block-woocommerce-checkout-order-summary-block {
+  background: #ffffff !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 2rem !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-checkout-order-summary__title-text,
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-title {
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+  color: var(--color-text-dark) !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 0 1.25rem 0 !important;
+  padding-bottom: 0.85rem !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* Linhas de Itens no Resumo */
+.wc-block-components-order-summary-item {
+  display: flex !important;
+  gap: 1rem !important;
+  align-items: center !important;
+  padding: 0.85rem 0 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.wc-block-components-order-summary-item__image {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--color-border) !important;
+  background: #f8fafc !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+}
+
+.wc-block-components-order-summary-item__image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.wc-block-components-order-summary-item__quantity {
+  position: absolute !important;
+  top: -6px !important;
+  right: -6px !important;
+  background: var(--color-primary) !important;
+  color: #ffffff !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* Linhas de Valores (Subtotal, Portes, Descontos) */
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-totals-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.75rem 0 !important;
+  font-size: 0.95rem !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-totals-item .wc-block-components-totals-item__label {
+  color: var(--color-text-muted) !important;
+  font-weight: 500 !important;
+}
+
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-totals-item .wc-block-components-totals-item__value {
+  color: var(--color-text-dark) !important;
+  font-weight: 700 !important;
+}
+
+/* Linha de Total Geral no Checkout */
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-totals-footer-item {
+  padding-top: 1.25rem !important;
+  margin-top: 0.75rem !important;
+  border-top: 2px solid #f1f5f9 !important;
+  border-bottom: none !important;
+}
+
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-totals-footer-item .wc-block-components-totals-item__label {
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--color-text-dark) !important;
+}
+
+.wp-block-woocommerce-checkout-order-summary-block .wc-block-components-totals-footer-item .wc-block-components-totals-item__value {
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  color: var(--color-text-dark) !important;
+}
+
+/* Selos no Rodapé do Checkout */
+.checkout-trust-badges {
+  margin-top: 4rem !important;
+}
+
+/* ==========================================================================
+   Página de Confirmação de Encomenda (Order Received Experience)
+   ========================================================================== */
+.order-received-page-wrapper {
+  padding-top: 3rem;
+}
+
+.order-success-hero {
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 2rem 2.5rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.success-icon-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.2);
+  animation: floatAnimation 4s ease-in-out infinite alternate;
+}
+
+.order-success-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.025em;
+}
+
+.order-success-desc {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.order-received-container {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 3.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 
