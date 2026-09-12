@@ -112,3 +112,45 @@ function targetlink_woo_remove_wp_block_library_css(){
 }
 // Descomentar a linha abaixo para habilitar otimização extrema de CSS
 // add_action( 'wp_enqueue_scripts', 'targetlink_woo_remove_wp_block_library_css', 100 );
+
+/**
+ * Adiciona badge visual de "Esgotado" para produtos fora de estoque na listagem
+ */
+function targetlink_woo_out_of_stock_badge() {
+	global $product;
+	if ( ! $product ) {
+		return;
+	}
+	if ( ! $product->is_in_stock() ) {
+		echo '<span class="badge-out-of-stock">' . esc_html__( 'Esgotado', 'targetlink-woo' ) . '</span>';
+	}
+}
+add_action( 'woocommerce_before_shop_loop_item_title', 'targetlink_woo_out_of_stock_badge', 10 );
+
+/**
+ * Personaliza o texto do botão do catálogo
+ * Se estiver esgotado -> "Esgotado"
+ * Se não tiver preço cadastrado -> "Ver detalhes"
+ */
+function targetlink_woo_custom_add_to_cart_text( $text, $product ) {
+	if ( ! $product->is_in_stock() ) {
+		return esc_html__( 'Esgotado', 'targetlink-woo' );
+	}
+	if ( '' === $product->get_price() ) {
+		return esc_html__( 'Ver detalhes', 'targetlink-woo' );
+	}
+	return $text;
+}
+add_filter( 'woocommerce_product_add_to_cart_text', 'targetlink_woo_custom_add_to_cart_text', 10, 2 );
+
+/**
+ * Exibe indicação elegante quando o produto não possui preço cadastrado
+ */
+function targetlink_woo_empty_price_html( $price, $product ) {
+	if ( '' === $product->get_price() ) {
+		return '<span class="price-empty">' . esc_html__( 'Preço sob consulta', 'targetlink-woo' ) . '</span>';
+	}
+	return $price;
+}
+add_filter( 'woocommerce_get_price_html', 'targetlink_woo_empty_price_html', 10, 2 );
+

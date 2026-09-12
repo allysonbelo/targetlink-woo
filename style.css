@@ -388,6 +388,58 @@ a:hover {
   z-index: 5 !important;
 }
 
+/* Badge de Esgotado (Out of Stock) */
+.woocommerce .badge-out-of-stock,
+.woocommerce-page .badge-out-of-stock {
+  position: absolute !important;
+  top: 1.25rem !important;
+  left: 1.25rem !important;
+  right: auto !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  line-height: 1 !important;
+  background: #475569 !important; /* Slate 600 */
+  color: #ffffff !important;
+  font-size: 0.725rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase !important;
+  padding: 0.35rem 0.65rem !important;
+  border-radius: var(--radius-full) !important;
+  box-shadow: var(--shadow-sm) !important;
+  z-index: 6 !important;
+}
+
+/* Tratamento de produto fora de estoque no grid */
+.woocommerce ul.products li.product.outofstock a img,
+.woocommerce-page ul.products li.product.outofstock a img {
+  opacity: 0.65;
+  filter: grayscale(25%);
+}
+
+.woocommerce ul.products li.product.outofstock .button,
+.woocommerce-page ul.products li.product.outofstock .button {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.woocommerce ul.products li.product.outofstock .button:hover,
+.woocommerce-page ul.products li.product.outofstock .button:hover {
+  background: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+/* Preço sob consulta / vazio */
+.price-empty {
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text-muted) !important;
+  font-style: italic;
+  display: block;
+  margin-bottom: 1rem;
+}
+
 /* ==========================================================================
    Página do Produto Único (Single Product)
    ========================================================================== */
