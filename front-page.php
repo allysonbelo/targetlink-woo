@@ -139,19 +139,18 @@ $hero_img = get_theme_file_uri( 'assets/images/hero-banner.jpg' );
 				}
 			?>
 				<a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="category-card">
-					<div class="category-img-container">
+					<div class="category-avatar">
 						<?php if ( $image ) : ?>
-							<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $cat->name ); ?>" class="cat-img" />
+							<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $cat->name ); ?>" class="cat-circle-img" />
 						<?php else : ?>
-							<div class="category-placeholder">
-								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+							<div class="category-placeholder-circle">
+								<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
 							</div>
 						<?php endif; ?>
-						<span class="category-count-badge"><?php echo esc_html( $cat->count ); ?> itens</span>
 					</div>
 					<div class="category-info">
 						<h3><?php echo esc_html( $cat->name ); ?></h3>
-						<span class="category-link-text">Ver catálogo &rarr;</span>
+						<span class="category-count"><?php echo esc_html( $cat->count ); ?> produtos</span>
 					</div>
 				</a>
 			<?php endforeach; ?>
@@ -159,7 +158,7 @@ $hero_img = get_theme_file_uri( 'assets/images/hero-banner.jpg' );
 	</section>
 	<?php endif; ?>
 
-	<!-- 4. Produtos em Destaque (WooCommerce Grid Dinâmico Corrigido) -->
+	<!-- 4. Produtos em Destaque (WooCommerce Grid Dinâmico Inteligente) -->
 	<section id="destaques" class="featured-products-section">
 		<div class="section-header">
 			<span class="section-tag">Catálogo</span>
@@ -169,8 +168,19 @@ $hero_img = get_theme_file_uri( 'assets/images/hero-banner.jpg' );
 
 		<div class="products-container">
 			<?php
-			if ( function_exists( 'woocommerce_product_loop' ) ) {
-				echo do_shortcode( '[products limit="8" columns="4" orderby="date" order="DESC"]' );
+			if ( function_exists( 'woocommerce_product_loop' ) || shortcode_exists( 'products' ) ) {
+				// Verifica se há produtos marcados com a estrela de Destaque (Featured) no painel
+				$has_featured = function_exists( 'wc_get_products' ) ? wc_get_products( array(
+					'featured' => true,
+					'limit'    => 1,
+					'status'   => 'publish',
+				) ) : array();
+
+				if ( ! empty( $has_featured ) ) {
+					echo do_shortcode( '[products limit="8" columns="4" visibility="featured"]' );
+				} else {
+					echo do_shortcode( '[products limit="8" columns="4" orderby="date" order="DESC"]' );
+				}
 			}
 			?>
 		</div>
