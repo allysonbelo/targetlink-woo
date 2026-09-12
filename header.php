@@ -23,15 +23,31 @@
 
 		<nav class="main-navigation">
 			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-1',
-					'menu_id'        => 'primary-menu',
-                    'fallback_cb'    => false, // não mostra nada se não houver menu
-				)
-			);
+			if ( has_nav_menu( 'primary' ) ) {
+				wp_nav_menu(
+					array(
+						'theme_location' => 'primary',
+						'menu_id'        => 'primary-menu',
+						'container'      => false,
+					)
+				);
+			} else {
+				// Fallback elegante com links diretos
+				?>
+				<ul class="fallback-menu">
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Início</a></li>
+					<?php if ( function_exists( 'wc_get_page_permalink' ) ) : ?>
+						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">Loja / Catálogo</a></li>
+					<?php endif; ?>
+				</ul>
+				<?php
+			}
 			?>
 		</nav>
+
+		<div class="header-actions">
+			<?php targetlink_woo_cart_link(); ?>
+		</div>
 	</header>
 
 	<main id="primary" class="site-main">

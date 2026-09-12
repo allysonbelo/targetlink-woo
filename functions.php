@@ -48,12 +48,49 @@ function targetlink_woo_setup() {
         ),
 	) );
 
-    // WooCommerce Features
+	// Registra menus de navegação
+	register_nav_menus(
+		array(
+			'primary' => esc_html__( 'Menu Principal', 'targetlink-woo' ),
+		)
+	);
+
+	// WooCommerce Features
 	add_theme_support( 'wc-product-gallery-zoom' );
 	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
 }
 add_action( 'after_setup_theme', 'targetlink_woo_setup' );
+
+/**
+ * Atualização assíncrona do mini-carrinho via AJAX fragments
+ */
+function targetlink_woo_cart_link_fragment( $fragments ) {
+	ob_start();
+	targetlink_woo_cart_link();
+	$fragments['a.cart-custom-location'] = ob_get_clean();
+	return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'targetlink_woo_cart_link_fragment' );
+
+/**
+ * Helper de renderização do link do carrinho no Header
+ */
+function targetlink_woo_cart_link() {
+	if ( ! function_exists( 'wc_get_cart_url' ) || ! function_exists( 'WC' ) ) {
+		return;
+	}
+	$count = ( WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
+	?>
+	<a class="cart-custom-location header-cart-link" href="<?php echo esc_url( wc_get_cart_url() ); ?>" title="<?php esc_attr_e( 'Ver seu carrinho de compras', 'targetlink-woo' ); ?>">
+		<span class="cart-icon" aria-hidden="true">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+		</span>
+		<span class="cart-label">Carrinho</span>
+		<span class="cart-count"><?php echo esc_html( $count ); ?></span>
+	</a>
+	<?php
+}
 
 /**
  * Enqueue scripts and styles.
