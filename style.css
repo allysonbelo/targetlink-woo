@@ -213,12 +213,162 @@ a:hover {
 
 /* ==========================================================================
    WooCommerce: Otimizações & Catálogo de Produtos (Grid)
+/* ==========================================================================
+   Shop Archive: Hero Header & Category Filter Pills
    ========================================================================== */
+.shop-hero-header {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.shop-breadcrumbs {
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shop-breadcrumbs a {
+  color: var(--color-text-muted);
+  transition: var(--transition);
+}
+
+.shop-breadcrumbs a:hover {
+  color: var(--color-accent);
+}
+
+.shop-breadcrumbs .sep {
+  color: var(--color-border);
+}
+
+.shop-breadcrumbs .current {
+  color: var(--color-text-dark);
+  font-weight: 600;
+}
+
+.shop-hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.shop-hero-description {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  margin: 0 0 2rem 0;
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+/* Category Filter Pills */
+.shop-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 640px) {
+  .shop-filter-bar {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.shop-category-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.shop-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.shop-pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: var(--color-accent-light);
+  transform: translateY(-1px);
+}
+
+.shop-pill.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+}
+
+.pill-badge {
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 0.725rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+}
+
+.shop-pill.active .pill-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Category Badge acima do título no Card */
+.product-card-category {
+  font-size: 0.725rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0.35rem !important;
+  line-height: 1 !important;
+}
+
+.product-card-category a {
+  color: var(--color-text-muted) !important;
+}
+
+.product-card-category a:hover {
+  color: var(--color-accent) !important;
+}
+
+/* Toolbar: Resultado & Ordenação */
 .woocommerce .woocommerce-result-count,
 .woocommerce-page .woocommerce-result-count {
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   margin-bottom: 1.5rem;
+  padding-top: 0.4rem;
 }
 
 .woocommerce .woocommerce-ordering,
@@ -228,13 +378,23 @@ a:hover {
 
 .woocommerce .woocommerce-ordering select {
   font-family: inherit;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background-color: var(--color-surface);
-  color: var(--color-text);
+  color: var(--color-text-dark);
   outline: none;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.woocommerce .woocommerce-ordering select:hover,
+.woocommerce .woocommerce-ordering select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 /* Grade de Produtos */

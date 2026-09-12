@@ -188,3 +188,23 @@ function targetlink_woo_template_loop_product_thumbnail() {
 }
 add_action( 'woocommerce_before_shop_loop_item_title', 'targetlink_woo_template_loop_product_thumbnail', 10 );
 
+/**
+ * Remove o título h1 cru padrão do WooCommerce no catálogo
+ */
+add_filter( 'woocommerce_show_page_title', '__return_false' );
+
+/**
+ * Exibe a categoria do produto acima do título no card
+ */
+function targetlink_woo_card_category_badge() {
+	global $product;
+	if ( ! $product ) {
+		return;
+	}
+	$categories = wc_get_product_category_list( $product->get_id(), ', ', '<div class="product-card-category">', '</div>' );
+	if ( $categories && ! is_wp_error( $categories ) ) {
+		echo $categories;
+	}
+}
+add_action( 'woocommerce_shop_loop_item_title', 'targetlink_woo_card_category_badge', 5 );
+
