@@ -533,6 +533,416 @@ a:hover {
 }
 
 /* ==========================================================================
+   Home Page Components (Hero, Benefits, Categories & Sections)
+   ========================================================================== */
+.home-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* Botões Genéricos */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.8rem 1.6rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: #ffffff !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: var(--color-primary);
+  color: #ffffff !important;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* 1. Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 900px) {
+  .hero-section {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 3.5rem;
+  }
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.25);
+  color: #93c5fd;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1.25rem;
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.25rem 0;
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hero-card-preview {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  max-width: 340px;
+  width: 100%;
+}
+
+.preview-badge {
+  display: inline-block;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1rem;
+}
+
+.preview-info h3 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.preview-info p {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  margin: 0 0 1.25rem 0;
+}
+
+.preview-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #60a5fa;
+  display: block;
+}
+
+/* 2. Value Propositions / Bar de Benefícios */
+.benefits-bar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 640px) {
+  .benefits-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .benefits-bar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.benefit-icon {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.benefit-text strong {
+  font-size: 0.95rem;
+  color: var(--color-text-dark);
+}
+
+.benefit-text span {
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+}
+
+/* 3. Categorias em Destaque */
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  letter-spacing: -0.025em;
+  margin: 0 0 0.5rem 0;
+}
+
+.section-subtitle {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.category-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.category-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.category-image {
+  width: 5rem;
+  height: 5rem;
+  border-radius: var(--radius-full);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 1rem;
+  border: 2px solid var(--color-border);
+}
+
+.category-placeholder {
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin: 0 0 0.25rem 0;
+}
+
+.category-info span {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* 4. Seção de Produtos em Destaque */
+.featured-products-section {
+  margin-top: 1rem;
+}
+
+.section-footer-action {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* 5. Banner Promocional */
+.promo-banner-section {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  border-radius: var(--radius-lg);
+  color: #ffffff;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.promo-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1rem;
+}
+
+.promo-banner-card h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.025em;
+}
+
+.promo-banner-card p {
+  font-size: 1.1rem;
+  color: #bfdbfe;
+  max-width: 550px;
+  margin: 0 auto 1.75rem auto;
+}
+
+/* 6. Newsletter Section */
+.newsletter-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.newsletter-content {
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.newsletter-content h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.newsletter-content p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin: 0 0 1.75rem 0;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .newsletter-form {
+    flex-direction: row;
+  }
+  .newsletter-form input {
+    flex: 1;
+  }
+}
+
+.newsletter-form input {
+  padding: 0.85rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.newsletter-form input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 .site-footer {
