@@ -1,0 +1,12 @@
+# Ignorar dependências Node.js caso usemos no futuro para compilar CSS/JS
+node_modules/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDE
+.idea/
+.vscode/
+*.swp
+*.log
