@@ -154,3 +154,37 @@ function targetlink_woo_empty_price_html( $price, $product ) {
 }
 add_filter( 'woocommerce_get_price_html', 'targetlink_woo_empty_price_html', 10, 2 );
 
+/**
+ * Substitui o thumbnail padrão do catálogo para exibir a primeira imagem da galeria no Hover
+ */
+remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
+
+function targetlink_woo_template_loop_product_thumbnail() {
+	global $product;
+	if ( ! $product ) {
+		return;
+	}
+
+	$image_id          = $product->get_image_id();
+	$gallery_image_ids = $product->get_gallery_image_ids();
+	$has_gallery       = ! empty( $gallery_image_ids );
+
+	echo '<div class="product-thumbnail-wrapper ' . ( $has_gallery ? 'has-hover-image' : '' ) . '">';
+
+	// 1. Imagem Principal (Capa)
+	if ( $image_id ) {
+		echo wp_get_attachment_image( $image_id, 'woocommerce_thumbnail', false, array( 'class' => 'product-primary-img' ) );
+	} else {
+		echo wc_placeholder_img( 'woocommerce_thumbnail', array( 'class' => 'product-primary-img' ) );
+	}
+
+	// 2. Primeira Imagem da Galeria (Exibida suavemente no Hover)
+	if ( $has_gallery ) {
+		$secondary_image_id = $gallery_image_ids[0];
+		echo wp_get_attachment_image( $secondary_image_id, 'woocommerce_thumbnail', false, array( 'class' => 'product-secondary-img' ) );
+	}
+
+	echo '</div>';
+}
+add_action( 'woocommerce_before_shop_loop_item_title', 'targetlink_woo_template_loop_product_thumbnail', 10 );
+

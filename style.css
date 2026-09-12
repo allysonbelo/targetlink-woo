@@ -294,19 +294,63 @@ a:hover {
   transform: translateY(-3px);
 }
 
-/* Imagem do Produto */
-.woocommerce ul.products li.product a img,
-.woocommerce-page ul.products li.product a img {
-  border-radius: var(--radius-sm) !important;
-  aspect-ratio: 1 / 1 !important;
-  object-fit: cover !important;
-  margin: 0 0 1rem 0 !important;
-  transition: transform 0.3s ease !important;
+/* Imagem do Produto & Efeito Hover com Galeria */
+.woocommerce ul.products li.product .product-thumbnail-wrapper,
+.woocommerce-page ul.products li.product .product-thumbnail-wrapper {
+  position: relative !important;
   width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden !important;
+  margin: 0 0 1rem 0 !important;
+  background-color: var(--color-bg) !important;
 }
 
-.woocommerce ul.products li.product:hover a img {
-  transform: scale(1.02);
+.woocommerce ul.products li.product .product-thumbnail-wrapper img,
+.woocommerce-page ul.products li.product .product-thumbnail-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  display: block !important;
+  margin: 0 !important;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Imagem primária */
+.woocommerce ul.products li.product .product-thumbnail-wrapper .product-primary-img,
+.woocommerce-page ul.products li.product .product-thumbnail-wrapper .product-primary-img {
+  opacity: 1;
+}
+
+/* Imagem secundária (da galeria) */
+.woocommerce ul.products li.product .product-thumbnail-wrapper .product-secondary-img,
+.woocommerce-page ul.products li.product .product-thumbnail-wrapper .product-secondary-img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden;
+  transform: scale(1.04);
+}
+
+/* Quando passa o mouse no card e existe imagem secundária: */
+.woocommerce ul.products li.product:hover .product-thumbnail-wrapper.has-hover-image .product-primary-img,
+.woocommerce-page ul.products li.product:hover .product-thumbnail-wrapper.has-hover-image .product-primary-img {
+  opacity: 0 !important;
+}
+
+.woocommerce ul.products li.product:hover .product-thumbnail-wrapper.has-hover-image .product-secondary-img,
+.woocommerce-page ul.products li.product:hover .product-thumbnail-wrapper.has-hover-image .product-secondary-img {
+  opacity: 1 !important;
+  visibility: visible;
+  transform: scale(1.06);
+}
+
+/* Caso o produto não tenha galeria, apenas dá um zoom suave na principal */
+.woocommerce ul.products li.product:hover .product-thumbnail-wrapper:not(.has-hover-image) .product-primary-img,
+.woocommerce-page ul.products li.product:hover .product-thumbnail-wrapper:not(.has-hover-image) .product-primary-img {
+  transform: scale(1.04);
 }
 
 /* Título do Produto */
